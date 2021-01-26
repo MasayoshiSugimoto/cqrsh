@@ -1,5 +1,11 @@
 
 function event.on_player_play {
 	local CELL=$1
-	echo "player_play,$CELL" >> $STATE_FOLDER/events
+	event.send_game_event "game.play 1 $CELL"
+}
+
+function event.send_game_event {
+	local EVENT="$1" 
+	echo "$EVENT" >> $STATE_FOLDER/events
+	./game.sh "$EVENT"	
 }

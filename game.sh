@@ -29,4 +29,9 @@ function game.play {
 	$XSED -i -e "s/$CELL/$MARK/" $STATE_FOLDER/board
 }
 
+# Process the event repository and apply command to the game state.
+function game.restaure {
+	cat $STATE_FOLDER/events | xargs -L1 ./game.sh
+}
+
 $@
