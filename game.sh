@@ -1,5 +1,3 @@
-GAME_TURN=1
-
 function game.get_board {
 	cat $STATE_FOLDER/board
 }
@@ -15,6 +13,10 @@ function game.init_state {
 	game.init_board
 	game.set_turn 1
 	touch $STATE_FOLDER/events
+	
+	echo '
+turn=1
+' > $STATE_FOLDER/game_state
 }
 
 function game.empty_cells {
@@ -22,11 +24,11 @@ function game.empty_cells {
 }
 
 function game.set_turn {
-	GAME_TURN="$1"
+	$XSED -I -e "s/turn=(.*)/turn=$1/" $STATE_FOLDER/game_state
 }
 
 function game.get_turn {
-	echo "$GAME_TURN"
+	cat $STATE_FOLDER/game_state | $XGREP 'turn' | cut -f2 -d=
 }
 
 function game.play {
