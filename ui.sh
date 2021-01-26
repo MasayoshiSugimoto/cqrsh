@@ -35,7 +35,7 @@ NOTIFICATION: $(
 )
 Player 1:     X
 Player 2:     O
-Turn:         Player 1
+Turn:         Player $(query.get_game_turn)
 
 ----------------------------------------------
 

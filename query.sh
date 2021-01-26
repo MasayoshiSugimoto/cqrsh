@@ -6,3 +6,7 @@ function query.get_game {
 function query.get_empty_cells {
 	game.empty_cells
 }
+
+function query.get_game_turn {
+	game.get_turn
+}

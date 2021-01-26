@@ -1,3 +1,5 @@
+GAME_TURN=1
+
 function game.get_board {
 	cat $STATE_FOLDER/board
 }
@@ -11,11 +13,20 @@ G,H,I' > $STATE_FOLDER/board
 function game.init_state {
 	mkdir -p $STATE_FOLDER
 	game.init_board
+	game.set_turn 1
 	touch $STATE_FOLDER/events
 }
 
 function game.empty_cells {
 	paste -s -d, <(cat $STATE_FOLDER/board | tr , '\n' | grep -vE 'X|O')
+}
+
+function game.set_turn {
+	GAME_TURN="$1"
+}
+
+function game.get_turn {
+	echo "$GAME_TURN"
 }
 
 function game.play {
@@ -27,4 +38,10 @@ function game.play {
 		MARK='O'
 	fi
 	$XSED -i -e "s/$CELL/$MARK/" $STATE_FOLDER/board
+
+	if [[ "$(game.get_turn)" == 1 ]]; then
+		game.set_turn 2
+	else
+		game.set_turn 1
+	fi
 }
