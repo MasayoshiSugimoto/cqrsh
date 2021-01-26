@@ -1,10 +1,10 @@
 
-XAWK='awk -F,'
-XSED='sed -E'
+export XAWK='awk -F,'
+export XSED='sed -E'
 
 # Folder where the application persist its state
-STATE_FOLDER=/tmp/cqrsh
-ERROR_LOG=$STATE_FOLDER/log
+export STATE_FOLDER=/tmp/cqrsh
+export ERROR_LOG=$STATE_FOLDER/log
 
 # Exit codes
-EXIT_CODE_INTERRUPTED=1
+export EXIT_CODE_INTERRUPTED=1

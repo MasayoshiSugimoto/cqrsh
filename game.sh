@@ -1,3 +1,6 @@
+#!/bin/bash
+
+source def.sh
 
 function game.get_board {
 	cat $STATE_FOLDER/board
@@ -19,15 +22,11 @@ function game.play {
 	local PLAYER="$1"
 	local CELL="$2"
 
-	# TODO: Add error handling
-
-	$XSED -i "s/$2/$([[ $PLAYER == 1 ]] && echo 'X' || echo 'Y')/" $STATE_FOLDER/board
+	local MARK='X'
+	if [[ "$PLAYER" == 1 ]]; then
+		MARK='O'
+	fi
+	$XSED -i -e "s/$CELL/$MARK/" $STATE_FOLDER/board
 }
 
-# Process the event repository and apply command to the game state.
-function game.listen {
-	tail -n+1 -F $STATE_FOLDER/events\
-		| tr ',' ' '\
-		| $XSED 's/^player_play/game.play 1 /'\
-		| xargs eval
-}
+$@

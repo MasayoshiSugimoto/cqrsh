@@ -19,11 +19,18 @@ function controller.main_loop {
 function controller.launch {
 	# Stop listeners when interrupted
 	trap "controller.shutdown; exit $EXIT_CODE_INTERRUPTED" SIGINT
-	game.listen & 2>$ERROR_LOG
+	controller.listen & 2>$ERROR_LOG
 	game.init_state
 	controller.main_loop
 }
 
 function controller.shutdown {
 	pkill -g $$ # Kill all child processes
+}
+
+# Process the event repository and apply command to the game state.
+function controller.listen {
+	tail -n+1 -F $STATE_FOLDER/events \
+		| $XSED -u -e 's/^player_play/game.play,1/' -e 's/,/ /g' \
+		| xargs -L1 ./game.sh
 }
