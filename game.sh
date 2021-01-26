@@ -1,7 +1,3 @@
-#!/bin/bash
-
-source def.sh
-
 function game.get_board {
 	cat $STATE_FOLDER/board
 }
@@ -28,10 +24,3 @@ function game.play {
 	fi
 	$XSED -i -e "s/$CELL/$MARK/" $STATE_FOLDER/board
 }
-
-# Process the event repository and apply command to the game state.
-function game.restaure {
-	cat $STATE_FOLDER/events | xargs -L1 ./game.sh
-}
-
-$@
