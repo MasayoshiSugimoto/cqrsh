@@ -33,13 +33,13 @@ NOTIFICATION: $(
 		echo 'Invalid cell.'
 	fi
 )
-Player: X
-COM:    O
+Player 1:     X
+Player 2:     O
+Turn:         Player 1
 
 ----------------------------------------------
 
-
-Your turn. You can play in one of the empty cells by typing the letter it contains then press <ENTER>.
+Type a letter and type <ENTER>:
 EOF
 }
 
