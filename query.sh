@@ -4,5 +4,5 @@ function query.get_game {
 }
 
 function query.get_empty_cells {
-	echo 'A,B,C,D'
+	game.empty_cells
 }

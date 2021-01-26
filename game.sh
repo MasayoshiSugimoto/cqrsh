@@ -14,6 +14,10 @@ function game.init_state {
 	touch $STATE_FOLDER/events
 }
 
+function game.empty_cells {
+	paste -s -d, <(cat $STATE_FOLDER/board | tr , '\n' | grep -vE 'X|O')
+}
+
 function game.play {
 	local PLAYER="$1"
 	local CELL="$2"
