@@ -33,8 +33,8 @@ NOTIFICATION: $(
 		echo 'Invalid cell.'
 	fi
 )
-Player 1:     X
-Player 2:     O
+Player 1:     $(query.player_1_mark)
+Player 2:     $(query.player_2_mark)
 Turn:         Player $(query.get_game_turn)
 
 ----------------------------------------------
