@@ -43,4 +43,22 @@ Type a letter and type <ENTER>:
 EOF
 }
 
+function ui.start_screen {
+	cat << EOF
 
+TICTACTOE
+=========
+
+----------------------------------------------
+
+Tictactoe implemented with bash and CQRS.
+Built by Masayoshi Sugimoto.
+
+----------------------------------------------
+
+1. New Game
+2. Continue
+
+Type number and press <ENTER>:
+EOF
+}
