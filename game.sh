@@ -52,3 +52,34 @@ function game.get_mark {
 		echo 'O'
 	fi
 }
+
+function game.has_won {
+	local PLAYER=$1
+	cat $STATE_FOLDER/board\
+		| tr $(game.get_mark $PLAYER) 1\
+		| tr -d '[:alpha:]'\
+		| $XAWK '
+			{
+				i = 0
+				board[i++, NR-1] = $1
+				board[i++, NR-1] = $2
+				board[i++, NR-1] = $3
+			}
+			END {
+				if (\
+					(board[0,0] && board[0,1] && board[0,2])\
+					|| (board[1,0] && board[1,1] && board[1,2])\
+					|| (board[2,0] && board[2,1] && board[2,2])\
+					|| (board[0,0] && board[1,0] && board[2,0])\
+					|| (board[0,1] && board[1,1] && board[2,1])\
+					|| (board[0,2] && board[1,2] && board[2,2])\
+					|| (board[0,0] && board[1,1] && board[2,2])\
+					|| (board[0,2] && board[1,1] && board[2,0])\
+				) {
+					print 1
+				} else {
+					print 0
+				}
+			}
+		'
+}
