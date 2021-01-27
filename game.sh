@@ -32,18 +32,23 @@ function game.get_turn {
 }
 
 function game.play {
-	local PLAYER="$1"
-	local CELL="$2"
+	local CELL="$1"
 
-	local MARK='X'
-	if [[ "$PLAYER" == 1 ]]; then
-		MARK='O'
-	fi
+	local MARK=$(game.get_mark $(game.get_turn))
 	$XSED -i -e "s/$CELL/$MARK/" $STATE_FOLDER/board
 
 	if [[ "$(game.get_turn)" == 1 ]]; then
 		game.set_turn 2
 	else
 		game.set_turn 1
+	fi
+}
+
+function game.get_mark {
+	local PLAYER="$1"
+	if [[ "$PLAYER" == 1 ]]; then
+		echo 'X'
+	else
+		echo 'O'
 	fi
 }
