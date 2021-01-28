@@ -1,23 +1,23 @@
-
 function controller.main_loop {
-	clear
-	ui.play_screen 0
-	local USER_INPUT=''
 	while true; do
-		# Ask user the cell he wants to play.
-		USER_INPUT="$(input.get_user_move)"
 		clear
-		if input.ok "$USER_INPUT"; then
-			event.on_player_play "$(input.value "$USER_INPUT")"
-			ui.play_screen 0
-		else
-			ui.play_screen 1
-		fi
+		case $(query.get_ui_screen) in
+		start)
+			controller.start_screen
+			;;
+		play)
+			controller.play_screen
+			;;
+		*)
+			controller.start_screen
+			;;
+		esac
 	done
 }
 
 function controller.launch {
 	game.init_state
+	controller.init
 	controller.main_loop
 }
 
@@ -25,3 +25,50 @@ function controller.shutdown {
 	pkill -g $$ # Kill all child processes
 }
 
+function controller.init {
+	echo '
+screen=start
+notification=
+' > $STATE_FOLDER/ui
+}
+
+function controller.set_state {
+	local KEY=$1
+	local VALUE="$2"
+	$XSED -I -e "s/$KEY=(.*)/$KEY=$VALUE/" $STATE_FOLDER/ui
+}
+
+function controller.set_screen {
+	local SCREEN=$1
+	controller.set_state 'screen' $SCREEN
+}
+
+function controller.set_notification {
+	local NOTIFICATION="$1"
+	controller.set_state 'notification' "$NOTIFICATION"
+}
+
+function controller.start_screen {
+	ui.start_screen
+
+	local NEXT_SCREEN=''
+	read NEXT_SCREEN
+	if [[ "$NEXT_SCREEN" == 1 ]]; then
+		controller.set_screen 'play'
+		controller.set_notification ''	
+	else
+		controller.set_notification 'Invalid input.'	
+	fi
+}
+
+function controller.play_screen {
+	ui.play_screen
+
+	local USER_INPUT="$(input.get_user_move)"
+	if input.ok "$USER_INPUT"; then
+		event.on_player_play "$(input.value "$USER_INPUT")"
+		controller.set_notification "Cell $(input.value "$USER_INPUT") played."
+	else
+		controller.set_notification 'Invalid input.'
+	fi
+}

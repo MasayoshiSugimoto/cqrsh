@@ -16,8 +16,6 @@ function ui.render_list {
 }
 
 function ui.play_screen {
-	local INVALID_CELL=$1
-
 	cat << EOF
 TICTACTOE
 =========
@@ -28,11 +26,7 @@ $(ui.render_board)
 
 ----------------------------------------------
 
-NOTIFICATION: $(
-	if [[ $INVALID_CELL != 0 ]]; then
-		echo 'Invalid cell.'
-	fi
-)
+Notification: $(query.get_ui_notification)
 Player 1:     $(query.player_1_mark)
 Player 2:     $(query.player_2_mark)
 Turn:         Player $(query.get_game_turn)
@@ -45,7 +39,6 @@ EOF
 
 function ui.start_screen {
 	cat << EOF
-
 TICTACTOE
 =========
 
@@ -53,6 +46,10 @@ TICTACTOE
 
 Tictactoe implemented with bash and CQRS.
 Built by Masayoshi Sugimoto.
+
+----------------------------------------------
+
+Notification: $(query.get_ui_notification)
 
 ----------------------------------------------
 
