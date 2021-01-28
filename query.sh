@@ -22,7 +22,7 @@ function query.player_2_mark {
 function query.game_who_won {
 	if [[ $(game.has_won 1) == 1 ]]; then
 		echo 1
-	elif [[ $(game.has_won 2) == 2 ]]; then
+	elif [[ $(game.has_won 2) == 1 ]]; then
 		echo 2
 	else
 		echo 0

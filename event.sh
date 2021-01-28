@@ -6,10 +6,15 @@ function event.on_player_play {
 
 function event.send_game_event {
 	local EVENT="$1" 
-	echo "$EVENT" >> $STATE_FOLDER/events
+	echo "$EVENT" >> $(game.get_current_event_file)
 	$EVENT
 }
 
 function event.replay {
-	source $STATE_FOLDER/events
+	local ID=$1
+	game.load $ID
+}
+
+function event.new_game {
+	game.init_state
 }

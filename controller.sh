@@ -16,7 +16,6 @@ function controller.main_loop {
 }
 
 function controller.launch {
-	game.init_state
 	controller.init
 	controller.main_loop
 }
@@ -54,6 +53,7 @@ function controller.start_screen {
 	local NEXT_SCREEN=''
 	read NEXT_SCREEN
 	if [[ "$NEXT_SCREEN" == 1 ]]; then
+		event.new_game
 		controller.set_screen 'play'
 		controller.set_notification ''	
 	else

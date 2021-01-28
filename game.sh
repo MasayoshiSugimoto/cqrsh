@@ -12,11 +12,14 @@ function game.init_state {
 	mkdir -p $STATE_FOLDER
 	game.init_board
 	game.set_turn 1
-	touch $STATE_FOLDER/events
-	
-	echo '
+
+	local ID=$(date "+%Y%m%d_%H%M%S")
+	echo "
 turn=1
-' > $STATE_FOLDER/game_state
+id=$ID
+" > $STATE_FOLDER/game_state
+
+	touch $(game.get_event_file $ID)
 }
 
 function game.empty_cells {
@@ -28,7 +31,16 @@ function game.set_turn {
 }
 
 function game.get_turn {
-	cat $STATE_FOLDER/game_state | $XGREP 'turn' | cut -f2 -d=
+	game.get_state_value 'turn'
+}
+
+function game.get_id {
+	game.get_state_value 'id'
+}
+
+function game.get_state_value {
+	local KEY=$1
+	cat $STATE_FOLDER/game_state | $XGREP "$KEY" | cut -f2 -d=
 }
 
 function game.play {
@@ -82,4 +94,18 @@ function game.has_won {
 				}
 			}
 		'
+}
+
+function game.get_event_file {
+	local ID=$1
+	echo "$STATE_FOLDER/event.$ID"
+}
+
+function game.get_current_event_file {
+	game.get_event_file $(game.get_id)
+}
+
+function game.load {
+	local ID=$1
+	source $(game.get_event_file $ID)
 }
