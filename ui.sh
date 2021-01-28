@@ -33,7 +33,16 @@ Turn:         Player $(query.get_game_turn)
 
 ----------------------------------------------
 
-Type a letter and type <ENTER>:
+$(
+	if [[ $(query.game_who_won) == 0 ]]; then
+		echo 'Type a letter and type <ENTER>:'
+	else
+		echo 'GAME OVER
+
+Press <ENTER> to continue.
+'
+	fi
+)
 EOF
 }
 

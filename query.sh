@@ -19,6 +19,16 @@ function query.player_2_mark {
 	game.get_mark 2
 }
 
+function query.game_who_won {
+	if [[ $(game.has_won 1) == 1 ]]; then
+		echo 1
+	elif [[ $(game.has_won 2) == 2 ]]; then
+		echo 2
+	else
+		echo 0
+	fi
+}
+
 function query.ui_state {
 	local KEY=$1
 	cat $STATE_FOLDER/ui | grep $KEY | cut -f2 -d=

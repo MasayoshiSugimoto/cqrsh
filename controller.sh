@@ -64,11 +64,23 @@ function controller.start_screen {
 function controller.play_screen {
 	ui.play_screen
 
+	local WINNER=$(query.game_who_won)
+	if [[ $WINNER != 0 ]]; then
+		read
+		controller.init
+		return
+	fi
+
 	local USER_INPUT="$(input.get_user_move)"
 	if input.ok "$USER_INPUT"; then
 		event.on_player_play "$(input.value "$USER_INPUT")"
 		controller.set_notification "Cell $(input.value "$USER_INPUT") played."
 	else
 		controller.set_notification 'Invalid input.'
+	fi
+
+	WINNER=$(query.game_who_won)
+	if [[ $WINNER != 0 ]]; then
+		controller.set_notification "Player $WINNER won."
 	fi
 }
