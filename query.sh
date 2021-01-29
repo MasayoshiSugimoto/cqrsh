@@ -51,3 +51,7 @@ function query.game_get_game_by_index {
 	local INDEX=$1
 	game.get_game_by_index $INDEX
 }
+
+function query.game_is_over {
+	game.is_game_over
+}

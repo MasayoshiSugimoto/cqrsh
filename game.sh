@@ -26,7 +26,7 @@ id=$ID
 }
 
 function game.empty_cells {
-	paste -s -d, <(cat $STATE_FOLDER/board | tr , '\n' | grep -vE 'X|O')
+	paste -s -d, <(game.get_board | tr , '\n' | grep -vE 'X|O')
 }
 
 function game.set_turn {
@@ -70,7 +70,7 @@ function game.get_mark {
 
 function game.has_won {
 	local PLAYER=$1
-	cat $STATE_FOLDER/board\
+	game.get_board\
 		| tr $(game.get_mark $PLAYER) 1\
 		| tr -d '[:alpha:]'\
 		| $XAWK '
@@ -97,6 +97,12 @@ function game.has_won {
 				}
 			}
 		'
+}
+
+function game.is_game_over {
+	[[ $(game.get_board | tr -d ',XO\n' | wc -c) -eq 0 ]]\
+	|| [[ $(game.has_won 1) == 1 ]]\
+	|| [[ $(game.has_won 2) == 1 ]]
 }
 
 function game.get_event_file {

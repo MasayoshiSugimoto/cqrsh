@@ -34,7 +34,7 @@ Turn:         Player $(query.get_game_turn)
 ----------------------------------------------
 
 $(
-	if [[ $(query.game_who_won) == 0 ]]; then
+	if ! query.game_is_over; then
 		echo 'Type a letter and type <ENTER>:'
 	else
 		echo 'GAME OVER

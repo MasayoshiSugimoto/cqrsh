@@ -28,6 +28,7 @@ function controller.shutdown {
 }
 
 function controller.init {
+	mkdir -p $STATE_FOLDER
 	echo '
 screen=start
 notification=
@@ -70,8 +71,8 @@ function controller.start_screen {
 function controller.play_screen {
 	ui.play_screen
 
-	local WINNER=$(query.game_who_won)
-	if [[ $WINNER != 0 ]]; then
+	# Return to start screen when the game is over
+	if query.game_is_over; then
 		read
 		controller.init
 		return
@@ -83,11 +84,18 @@ function controller.play_screen {
 		controller.set_notification "Cell $(input.value "$USER_INPUT") played."
 	else
 		controller.set_notification 'Invalid input.'
+		return
 	fi
 
 	WINNER=$(query.game_who_won)
 	if [[ $WINNER != 0 ]]; then
 		controller.set_notification "Player $WINNER won."
+		return
+	fi
+
+	if query.game_is_game_over; then
+		controller.set_notification "Draw."
+		return
 	fi
 }
 
