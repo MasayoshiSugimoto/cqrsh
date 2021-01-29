@@ -97,7 +97,10 @@ function controller.continue_screen {
 	local INDEX
 	read INDEX
 
-	if query.game_is_valid "$INDEX"; then
+	if [[ "$INDEX" == 0 ]]; then
+		controller.set_notification ''
+		controller.set_screen 'start'
+	elif query.game_is_valid "$INDEX"; then
 		event.replay $INDEX	
 		controller.set_notification "Game with id $(query.game_get_game_by_index $INDEX) loaded."
 		controller.set_screen 'play'
