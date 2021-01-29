@@ -8,6 +8,9 @@ function controller.main_loop {
 		play)
 			controller.play_screen
 			;;
+		continue)
+			controller.continue_screen
+			;;
 		*)
 			controller.start_screen
 			;;
@@ -56,8 +59,11 @@ function controller.start_screen {
 		event.new_game
 		controller.set_screen 'play'
 		controller.set_notification ''	
+	elif [[ "$NEXT_SCREEN" == 2 ]]; then
+		controller.set_screen 'continue'
+		controller.set_notification ''	
 	else
-		controller.set_notification 'Invalid input.'	
+		controller.set_notification 'Invalid input.'
 	fi
 }
 
@@ -83,4 +89,12 @@ function controller.play_screen {
 	if [[ $WINNER != 0 ]]; then
 		controller.set_notification "Player $WINNER won."
 	fi
+}
+
+function controller.continue_screen {
+	ui.continue_screen
+
+	local INDEX
+	read INDEX
+	event.replay "$INDEX"		
 }

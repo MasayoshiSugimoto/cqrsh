@@ -68,3 +68,25 @@ Notification: $(query.get_ui_notification)
 Type number and press <ENTER>:
 EOF
 }
+
+function ui.continue_screen {
+	cat << EOF
+TICTACTOE
+=========
+
+----------------------------------------------
+
+Continue Screen
+
+----------------------------------------------
+
+Notification: $(query.get_ui_notification)
+
+----------------------------------------------
+
+Select the game you want to continue or select
+an option and press <ENTER>:
+0. Back
+$(game.get_games | awk '{print NR". "$0}')
+EOF
+}

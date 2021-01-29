@@ -9,11 +9,14 @@ G,H,I' > $STATE_FOLDER/board
 }
 
 function game.init_state {
+	local ID=$1
+	if [[ $ID == "" ]]; then
+		ID=$(date "+%Y%m%d_%H%M%S")
+	fi
+
 	mkdir -p $STATE_FOLDER
 	game.init_board
-	game.set_turn 1
 
-	local ID=$(date "+%Y%m%d_%H%M%S")
 	echo "
 turn=1
 id=$ID
@@ -107,5 +110,11 @@ function game.get_current_event_file {
 
 function game.load {
 	local ID=$1
+	game.init_state $ID
 	source $(game.get_event_file $ID)
+}
+
+# Get the list of ids of all games. The games ids are sorted by time.
+function game.get_games {
+	ls -t $STATE_FOLDER/event.* | $XSED "s;$STATE_FOLDER/event\.;;"
 }
