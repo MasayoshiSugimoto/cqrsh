@@ -41,3 +41,13 @@ function query.get_ui_screen {
 function query.get_ui_notification {
 	query.ui_state 'notification'
 }
+
+function query.game_is_valid {
+	local INDEX="$1"
+	game.is_valid_game "$INDEX"
+}
+
+function query.game_get_game_by_index {
+	local INDEX=$1
+	game.get_game_by_index $INDEX
+}

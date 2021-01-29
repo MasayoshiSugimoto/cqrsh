@@ -12,8 +12,7 @@ function event.send_game_event {
 
 function event.replay {
 	local INDEX=$1
-	local ID=$(game.get_games | $XSED "$INDEX!d")
-	game.load $ID
+	game.load $(game.get_game_by_index $INDEX)
 }
 
 function event.new_game {

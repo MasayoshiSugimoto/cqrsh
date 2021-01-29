@@ -118,3 +118,14 @@ function game.load {
 function game.get_games {
 	ls -t $STATE_FOLDER/event.* | $XSED "s;$STATE_FOLDER/event\.;;"
 }
+
+function game.is_valid_game {
+	local INDEX="$1"
+	local NB_GAMES=$(game.get_games | wc -l)
+	[[ 0 -lt $INDEX ]] && [[ $INDEX -le $NB_GAMES ]]
+}
+
+function game.get_game_by_index {
+	local INDEX=$1
+	game.get_games | $XSED "$INDEX!d"
+}
