@@ -114,9 +114,9 @@ function game.load {
 	source $(game.get_event_file $ID)
 }
 
-# Get the list of ids of all games. The games ids are sorted by time.
+# Get the list of ids of all games.
 function game.get_games {
-	ls -t $STATE_FOLDER/event.* | $XSED "s;$STATE_FOLDER/event\.;;"
+	ls $STATE_FOLDER/event.* | $XSED "s;$STATE_FOLDER/event\.;;"
 }
 
 function game.is_valid_game {
